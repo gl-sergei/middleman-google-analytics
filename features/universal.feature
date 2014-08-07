@@ -22,6 +22,32 @@ Feature: Google Analytics universal tag helper
       </script>
       """
 
+  Scenario: Require some plugins
+    Given a fixture app "test-app-universal"
+    And a file named "config.rb" with:
+      """
+      activate :google_analytics do |ga|
+        ga.tracking_id = 'UA-123456-78'
+        ga.require_list = ['linker', 'ecommerce', 'displayfeatures']
+      end
+      """
+      Given the Server is running at "test-app-universal"
+      When I go to "/"
+      Then I should see:
+      """
+      <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-123456-78', 'auto');
+        ga('require', 'linker');
+        ga('require', 'ecommerce');
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+      </script>
+      """
+
   Scenario: Tracking across a domain and its subdomains
     Given a fixture app "test-app-universal"
     And a file named "config.rb" with:

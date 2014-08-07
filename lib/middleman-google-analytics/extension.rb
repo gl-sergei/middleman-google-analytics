@@ -10,6 +10,7 @@ module Middleman
     option :debug, false, 'Tracking Code Debugger'
     option :development, true, 'Tracking in development environment'
     option :minify, false, 'Compress the JavaScript code'
+    option :require_list, [], 'List of plugins to load'
 
     def initialize(app, options_hash={}, &block)
       super

@@ -5,6 +5,7 @@
   create_options << "{'allowLinker': true}" if @options.allow_linker
   ga = []
   ga << "ga('create', #{create_options.join(', ')});"
+  @options.require_list.each { |req| ga << "ga('require', '" + req + "');" }
   ga << "ga('set', 'anonymizeIp', true);" if @options.anonymize_ip
   if build? || development? && @options.development
     ga << "ga('send', 'pageview');"
