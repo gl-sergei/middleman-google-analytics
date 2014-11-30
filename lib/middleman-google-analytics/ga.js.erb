@@ -11,6 +11,7 @@
 %>
   var _gaq = _gaq || [];
   <%= gaq.map! { |x| "_gaq.push(#{x});" }.join("\n  ") %>
+  <%= "setTimeout(function(){_gaq.push(['_trackEvent', '15_seconds', 'read']);}, 15000);" if @options.adjusted_bounce_rate %>
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? '//ssl' : '//www') + '.google-analytics.com/<%= file %>.js';
